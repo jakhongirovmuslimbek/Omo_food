@@ -11,7 +11,7 @@ class Category(models.Model):
         source = 'image',
         processors = [Transpose(),],
         format = 'JPEG',
-        options = {'quality':60}
+        options = {'quality':30}
     )
 
     def save(self, *args, **kwargs):
@@ -30,7 +30,7 @@ class SubCategory(models.Model):
         source = 'image',
         processors = [Transpose(),],
         format = 'JPEG',
-        options = {'quality':60}
+        options = {'quality':30}
     )
 
     def save(self, *args, **kwargs):
@@ -73,7 +73,7 @@ class ProductImage(models.Model):
         source = 'image',
         processors = [Transpose(),],
         format = 'JPEG',
-        options = {'quality':60}
+        options = {'quality':30}
     )
 
     def __str__(self):
