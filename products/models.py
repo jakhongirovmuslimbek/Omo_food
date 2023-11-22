@@ -22,7 +22,7 @@ class Category(models.Model):
         return self.title
     
 class SubCategory(models.Model):
-    category = models.ForeignKey(Category, related_name="categoriess", on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name="subcategories", on_delete=models.CASCADE)
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(editable=False)
     image = models.FileField(upload_to="images/subcategories/%y%m%d", blank=True, null=True)
@@ -47,8 +47,8 @@ class Product(models.Model):
         ("dona", "dona"),
         ("metr", "metr")
     )
-    category = models.ForeignKey(Category, related_name="categories", on_delete=models.CASCADE)
-    subcategory = models.ForeignKey(SubCategory, related_name="subcategories", on_delete=models.CASCADE, blank=True, null=True)
+    category = models.ForeignKey(Category, related_name="products", on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(SubCategory, related_name="products", on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
