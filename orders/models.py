@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.text import slugify
 from products.models import Product
 
 class Order(models.Model):
