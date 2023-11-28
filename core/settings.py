@@ -133,9 +133,9 @@ USE_TZ = True
 # STATICFILES_DIRS = [BASE_DIR / 'static']
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_ROOT = '/home/omofood/omo_food/media'
+MEDIA_ROOT = '/home/omofood/Omo_food/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = '/home/omofood/omo_food/static'
+STATIC_ROOT = '/home/omofood/Omo_food/static'
 STATIC_URL = '/static/'
 
 # Default primary key field type
