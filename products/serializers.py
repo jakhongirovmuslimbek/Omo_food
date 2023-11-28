@@ -13,7 +13,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SubCategory
         fields = "__all__"
-    
+
     def get_category(self, obj):
         category = obj.category
         data = {
@@ -34,7 +34,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Product
         fields = "__all__"
-    
+
     def get_category(self, obj):
         category = obj.category
         data = {
@@ -45,6 +45,15 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_subcategory(self, obj):
         subcategory = obj.subcategory
+<<<<<<< HEAD
+        data = {}
+        if subcategory:
+            data={
+                "id": subcategory.id,
+                "title": subcategory.title,
+                }
+        return data
+=======
         if subcategory:
             data = {
                 "id": subcategory.id,
@@ -53,6 +62,7 @@ class ProductSerializer(serializers.ModelSerializer):
             return data
         else:
             return None
+>>>>>>> 047c973ea0cedbf1b417890b3e8429d832ff1d56
 
     def __init__(self, *args, **kwargs):
         super(ProductSerializer, self).__init__(*args, **kwargs)
@@ -67,7 +77,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProductImage
         fields = "__all__"
-    
+
     def get_product(self, obj):
         product = obj.product
         data = {
@@ -75,7 +85,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
             "product": product.title
         }
         return data
-    
+
     def __init__(self, *args, **kwargs):
         super(ProductImageSerializer, self).__init__(*args, **kwargs)
         request = self.context.get("request", None)
