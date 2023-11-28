@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'imagekit',
     'corsheaders',
+    'drf_yasg',
 
     # local apps
     'products',
@@ -125,18 +126,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# STATIC_URL = '/static/'
-# MEDIA_URL = "/media/"
+STATIC_URL = '/static/'
+MEDIA_URL = "/media/"
 
-# # STATIC_ROOT = BASE_DIR / "static"
+# STATIC_ROOT = BASE_DIR / "static"
 
-# STATICFILES_DIRS = [BASE_DIR / 'static']
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = [BASE_DIR / 'static']
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+<<<<<<< HEAD
 MEDIA_ROOT = '/home/omofood/Omo_food/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/omofood/Omo_food/static'
 STATIC_URL = '/static/'
+=======
+# MEDIA_ROOT = '/home/omofood/omo_food/media'
+# MEDIA_URL = '/media/'
+# STATIC_ROOT = '/home/omofood/omo_food/static'
+# STATIC_URL = '/static/'
+>>>>>>> 047c973ea0cedbf1b417890b3e8429d832ff1d56
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

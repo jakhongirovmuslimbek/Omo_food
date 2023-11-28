@@ -45,6 +45,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_subcategory(self, obj):
         subcategory = obj.subcategory
+<<<<<<< HEAD
         data = {}
         if subcategory:
             data={
@@ -52,6 +53,16 @@ class ProductSerializer(serializers.ModelSerializer):
                 "title": subcategory.title,
                 }
         return data
+=======
+        if subcategory:
+            data = {
+                "id": subcategory.id,
+                "title": subcategory.title,
+            }
+            return data
+        else:
+            return None
+>>>>>>> 047c973ea0cedbf1b417890b3e8429d832ff1d56
 
     def __init__(self, *args, **kwargs):
         super(ProductSerializer, self).__init__(*args, **kwargs)
