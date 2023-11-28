@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'imagekit',
     'corsheaders',
+    'drf_yasg',
 
     # local apps
     'products',

@@ -79,6 +79,19 @@ class ProductImage(models.Model):
     def __str__(self):
         return self.product.title
 
+
+# class Discount(models.Model):
+#     start_date = models.DateTimeField()
+#     end_date = models.DateTimeField()
+#     percentage = models.IntegerField(default=0, blank=True, null=True)
+#     product = models.ForeignKey(Product, blank=True)
+#     products = models.ManyToManyField(Product, blank=True)
+#     category = models.ManyToManyField(Category, blank=True)
+#     subcategory = models.ManyToManyField(SubCategory, blank=True)
+
+
+
+
 """
 discount
     start date 
@@ -90,6 +103,6 @@ discount
     products_status (tanlanganlarga, barcha maxsulotlarga)
     discount_status (fixed chegirma, dinamik chegirma % )
     
-
-
 """
+
+
