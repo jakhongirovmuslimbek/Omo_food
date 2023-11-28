@@ -78,3 +78,18 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return self.product.title
+
+"""
+discount
+    start date 
+    end date
+    foiz
+    products(manytomany) blank true
+    category(manytomany) blank true
+    subcategory(manytomany) blank true
+    products_status (tanlanganlarga, barcha maxsulotlarga)
+    discount_status (fixed chegirma, dinamik chegirma % )
+    
+
+
+"""
