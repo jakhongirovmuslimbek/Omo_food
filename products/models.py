@@ -51,7 +51,7 @@ class Product(models.Model):
     subcategory = models.ForeignKey(SubCategory, related_name="products", on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     amount = models.FloatField(default=0)
     amount_measure = models.CharField(max_length=25, choices=MEASURE_TYPE, default="kg")
     created_date = models.DateTimeField(auto_now_add=True)
@@ -80,14 +80,36 @@ class ProductImage(models.Model):
         return self.product.title
 
 
-# class Discount(models.Model):
-#     start_date = models.DateTimeField()
-#     end_date = models.DateTimeField()
-#     percentage = models.IntegerField(default=0, blank=True, null=True)
-#     product = models.ForeignKey(Product, blank=True)
-#     products = models.ManyToManyField(Product, blank=True)
-#     category = models.ManyToManyField(Category, blank=True)
-#     subcategory = models.ManyToManyField(SubCategory, blank=True)
+class Discount(models.Model):
+    DISCOUNT_TYPE = (
+        ("percentage", "Percentage"),   # dinamik chegirma
+        ("fixed", "Fixed Amount"),      # fixed chegirma
+    )
+    title = models.CharField(max_length=255)
+    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPE, default="percentage")
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+    is_active = models.BooleanField(default=True)    
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    product = models.ForeignKey(Product, related_name="discounts", on_delete=models.CASCADE, blank=True)
+    products = models.ManyToManyField(Product, related_name="discount_many", blank=True)
+    category = models.ManyToManyField(Category, related_name="discounts", blank=True)
+    subcategory = models.ManyToManyField(SubCategory, related_name="discounts", blank=True)
+    
+    def apply_discount(self, original_price):
+        if self.discount_type == "percentage":
+            discount_amount = (self.value / 100) * original_price
+            discounted_price = original_price - discount_amount
+        elif self.discount_type == "fixed":
+            discounted_price = max(original_price - self.value, 0)
+        else:
+            discounted_price = original_price
+        return round(discounted_price, 2)        
+    
+    def __str__(self):
+        return self.title
+    
 
 
 
