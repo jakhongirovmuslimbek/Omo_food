@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     # global apps
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'imagekit',
     'corsheaders',
     'drf_yasg',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     # local apps
     'products',
     'orders',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -90,7 +92,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -122,10 +123,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScrip  t, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> edda18b61a1d95f3daab87ecacaac12e11f543c9
 # STATIC_URL = '/static/'
 # MEDIA_URL = "/media/"
 
@@ -139,7 +143,10 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/omofood/Omo_food/static'
 STATIC_URL = '/static/'
 
+<<<<<<< HEAD
 # Default primary key field type
+=======
+>>>>>>> edda18b61a1d95f3daab87ecacaac12e11f543c9
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -149,3 +156,18 @@ CORS_ALLOW_ALL_ORIGINS=True
 # CORS_ALLOWED_ORIGINS = [
 #     "http://localhost:8000"
 # ]
+
+# my config
+AUTH_USER_MODEL = "users.AdminProfile"
+
+from .conf.simple_jwt import SIMPLE_JWT
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
