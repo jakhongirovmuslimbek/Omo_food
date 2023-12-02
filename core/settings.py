@@ -126,10 +126,6 @@ USE_TZ = True
 # Static files (CSS, JavaScrip  t, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-<<<<<<< HEAD
-=======
-
->>>>>>> edda18b61a1d95f3daab87ecacaac12e11f543c9
 # STATIC_URL = '/static/'
 # MEDIA_URL = "/media/"
 
@@ -143,10 +139,8 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/omofood/Omo_food/static'
 STATIC_URL = '/static/'
 
-<<<<<<< HEAD
 # Default primary key field type
-=======
->>>>>>> edda18b61a1d95f3daab87ecacaac12e11f543c9
+
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
