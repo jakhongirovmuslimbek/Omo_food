@@ -130,6 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScrip  t, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+<<<<<<< HEAD
 if not DEPLOY:
     STATIC_URL = '/static/'
     MEDIA_URL = "/media/"
@@ -143,6 +144,20 @@ else:
     MEDIA_URL = '/media/'
     STATIC_ROOT = '/home/omofood/Omo_food/static'
     STATIC_URL = '/static/'
+=======
+STATIC_URL = '/static/'
+MEDIA_URL = "/media/"
+
+STATIC_ROOT = BASE_DIR / "static"
+
+# STATICFILES_DIRS = [BASE_DIR / 'static']
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# MEDIA_ROOT = '/home/omofood/Omo_food/media'
+# MEDIA_URL = '/media/'
+# STATIC_ROOT = '/home/omofood/Omo_food/static'
+# STATIC_URL = '/static/'
+>>>>>>> origin/main
 
 # Default primary key field type
 
