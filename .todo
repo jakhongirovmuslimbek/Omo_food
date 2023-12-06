@@ -108,6 +108,7 @@
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
     "virtual": false,
+    "timelines": [],
     "showLine": false,
     "playFontSize": 24,
     "title": ".todo",
@@ -115,6 +116,6 @@
     "showEndTime": false,
     "simpleMode": false,
     "lang": "en",
-    "version": "1700716126885"
+    "version": "1701787036593"
   }
 }

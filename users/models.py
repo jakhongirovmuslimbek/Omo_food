@@ -1,24 +1,17 @@
+# django import
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from imagekit.models import ImageSpecField
-from imagekit.processors import Transpose
+from django.contrib.auth.models import AbstractUser,UserManager
+from django.utils.crypto import get_random_string
 
-# admin
-class AdminProfile(AbstractUser):
-    middle_name = models.CharField(max_length=255, blank=True, null=True)
-    image = models.FileField(upload_to="images/admin/%y%m%d", blank=True, null=True)
-    thumbnail_image = ImageSpecField(
-        source = 'image',
-        processors = [Transpose(),],
-        format = 'JPEG',
-        options = {'quality':60}
-    )
+class CustomUserManager(UserManager):
+    def create_fake_user(self):
+        # Generate a unique username
+        username = get_random_string(length=10)
+        # Generate a strong password (you can customize the logic for a strong password)
+        password = get_random_string(length=12)
+        # Create a new user with the generated username and password
+        user = self.create_user(username=username, password=password)
+        return user
 
-# users
-class Customer(models.Model):
-    username = models.CharField(max_length=255)
-    main_phone_number = models.DecimalField(max_digits=12, decimal_places=0)
-    additional_phone_number = models.DecimalField(max_digits=12, decimal_places=0)
-    location = models.CharField(max_length=300)
-    date_joined = models.DateTimeField(auto_now_add=True)
-    
+class CustomUser(AbstractUser):
+    objects = CustomUserManager()

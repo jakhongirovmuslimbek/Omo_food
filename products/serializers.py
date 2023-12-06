@@ -70,6 +70,8 @@ class ProductSerializer(serializers.ModelSerializer):
         super(ProductSerializer, self).__init__(*args, **kwargs)
         request = self.context.get("request", None)
         if request and request.method == "GET":
+            # self.fields["price"]=serializers.IntegerField(source="price")
+            self.fields["discount"] = serializers.DictField(source="check_discount")
             category=request.GET.get("category",None)=='true'
             if category:
                 self.fields["category"] = serializers.SerializerMethodField("get_category")
@@ -107,3 +109,4 @@ class DiscountSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Discount
         fields = "__all__"
+

@@ -1,14 +1,28 @@
+# django
+from django.urls import path,include
+# rest 
 from rest_framework.routers import DefaultRouter
 from products.views import CategoryViewSet, SubCategoryViewSet, ProductViewSet, ProductImageViewSet, DiscountViewSet
-from users.views import AdminViewSet, CustomerViewSet
+from users.views import CustomUserViewSet
 
-router = DefaultRouter()
+# simple_jwt
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+products_router = DefaultRouter()
 # Products 
-router.register("categories", CategoryViewSet, basename="categories")
-router.register("sub-categories", SubCategoryViewSet, basename="sub-categories")
-router.register("products", ProductViewSet, basename="products")
-router.register("product-images", ProductImageViewSet, basename="product-images")
-router.register("discounts", DiscountViewSet, basename="discount")
+products_router.register("categories", CategoryViewSet, basename="categories")
+products_router.register("sub-categories", SubCategoryViewSet, basename="sub-categories")
+products_router.register("products", ProductViewSet, basename="products")
+products_router.register("product-images", ProductImageViewSet, basename="product-images")
+products_router.register("discounts", DiscountViewSet, basename="discount")
 # Users
-router.register("admin", AdminViewSet, basename="admins")
-router.register("customers", CustomerViewSet, basename="customers")
+users_router = DefaultRouter()
+users_router.register("users", CustomUserViewSet, basename="users")
+
+urlpatterns=[
+    path('',include(products_router.urls)),
+    path('',include(users_router.urls)),
+    path('users/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('users/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]
+urlpatterns+=products_router.urls

@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import ast
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fpz4v!dlje%xbq(+m#2va&riovf5v5zets!ox!fz6f$#-_w&e8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEPLOY=ast.literal_eval(os.getenv("DEPLOY")) if os.getenv("DEPLOY") else False
+DEBUG = True if not DEPLOY else False
 
 ALLOWED_HOSTS = ['*']
 
@@ -48,7 +53,6 @@ INSTALLED_APPS = [
 
     # local apps
     'products',
-    'orders',
     'users',
 ]
 
@@ -126,18 +130,19 @@ USE_TZ = True
 # Static files (CSS, JavaScrip  t, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# STATIC_URL = '/static/'
-# MEDIA_URL = "/media/"
+if not DEPLOY:
+    STATIC_URL = '/static/'
+    MEDIA_URL = "/media/"
 
-# # STATIC_ROOT = BASE_DIR / "static"
+    STATIC_ROOT = os.path.join(BASE_DIR,"static")
 
-# STATICFILES_DIRS = [BASE_DIR / 'static']
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-MEDIA_ROOT = '/home/omofood/Omo_food/media'
-MEDIA_URL = '/media/'
-STATIC_ROOT = '/home/omofood/Omo_food/static'
-STATIC_URL = '/static/'
+    # STATICFILES_DIRS = [BASE_DIR / 'static']
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    MEDIA_ROOT = '/home/omofood/Omo_food/media'
+    MEDIA_URL = '/media/'
+    STATIC_ROOT = '/home/omofood/Omo_food/static'
+    STATIC_URL = '/static/'
 
 # Default primary key field type
 
@@ -152,7 +157,7 @@ CORS_ALLOW_ALL_ORIGINS=True
 # ]
 
 # my config
-AUTH_USER_MODEL = "users.AdminProfile"
+AUTH_USER_MODEL = "users.CustomUser"
 
 from .conf.simple_jwt import SIMPLE_JWT
 
