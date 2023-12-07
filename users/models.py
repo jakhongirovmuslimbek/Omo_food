@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 # local import
 from products.models import Product
+
 class CustomUserManager(UserManager):
     def create_fake_user(self):
         # Generate a unique username
