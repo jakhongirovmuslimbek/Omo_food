@@ -3,7 +3,7 @@ from django.urls import path,include
 # rest 
 from rest_framework.routers import DefaultRouter
 from products.views import CategoryViewSet, SubCategoryViewSet, ProductViewSet, ProductImageViewSet, DiscountViewSet
-from users.views import CustomUserViewSet
+from users.views import CustomUserViewSet,BasketViewSet
 
 # simple_jwt
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -18,6 +18,7 @@ products_router.register("discounts", DiscountViewSet, basename="discount")
 # Users
 users_router = DefaultRouter()
 users_router.register("users", CustomUserViewSet, basename="users")
+users_router.register("basket", BasketViewSet, basename="basket")
 
 urlpatterns=[
     path('',include(products_router.urls)),
