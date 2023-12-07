@@ -1,7 +1,11 @@
+from collections.abc import Iterable
 from django.db import models
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import Transpose
+from django.contrib.auth.models import User
+
+# User.objects.make_random_password()
 
 class Category(models.Model):
     title = models.CharField(max_length=255, unique=True)
@@ -51,7 +55,7 @@ class Product(models.Model):
     subcategory = models.ForeignKey(SubCategory, related_name="products", on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    price = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     amount = models.FloatField(default=0)
     amount_measure = models.CharField(max_length=25, choices=MEASURE_TYPE, default="kg")
     created_date = models.DateTimeField(auto_now_add=True)
@@ -62,6 +66,43 @@ class Product(models.Model):
         format = 'JPEG',
         options = {'quality':30}
     )
+
+
+    def check_discount(self):
+        all_discount=Discount.objects.filter(is_active=True,products_status="ALL")
+        product_discount=self.discounts.filter(is_active=True)
+        product_many_discount=self.discount_many.filter(is_active=True)
+        category_discount=self.category.discounts.filter(is_active=True)
+        subcategory=self.subcategory
+        subcategory_discount=subcategory.discounts.filter(is_active=True) if subcategory else subcategory
+
+        discount=None
+        discount_price=self.price
+        data={}
+
+        if all_discount:
+            discount=all_discount[0]
+            discount_price=discount.discount_price_product(self)
+        elif product_discount:
+            discount=product_discount[0]
+            discount_price=discount.discount_price_product(self)
+        elif product_many_discount:
+            discount=product_many_discount[0]
+            discount_price=discount.discount_price_product(self)
+        elif category_discount:
+            discount=category_discount[0]
+            discount_price=discount.discount_price_product(self)
+        elif subcategory_discount:
+            discount=subcategory_discount[0]
+            discount_price=discount.discount_price_product(self)
+        else:
+            return data
+        
+        from .serializers import DiscountSerializer
+        discount_serializer=DiscountSerializer(discount,many=False)
+        data=discount_serializer.data
+        data['product_discount_price']=discount_price
+        return data
 
     def __str__(self):
         return self.title
@@ -81,39 +122,34 @@ class ProductImage(models.Model):
 
 
 class Discount(models.Model):
-    DISCOUNT_TYPE = (
-        ("percentage", "Percentage"),   # dinamik chegirma
-        ("fixed", "Fixed Amount"),      # fixed chegirma
+    PRODUCTS_STATUS=(
+        ("ALL","ALL"),
+        ("CUSTOM","CUSTOM"),
     )
     title = models.CharField(max_length=255)
-    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPE, default="percentage")
     value = models.DecimalField(max_digits=10, decimal_places=2)
     is_active = models.BooleanField(default=True)    
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
-    product = models.ForeignKey(Product, related_name="discounts", on_delete=models.CASCADE, blank=True)
+    products_status=models.CharField(max_length=25,choices=PRODUCTS_STATUS,default="CUSTOM")
+    product = models.ForeignKey(Product, related_name="discounts", on_delete=models.CASCADE, blank=True,null=True)
     products = models.ManyToManyField(Product, related_name="discount_many", blank=True)
     category = models.ManyToManyField(Category, related_name="discounts", blank=True)
     subcategory = models.ManyToManyField(SubCategory, related_name="discounts", blank=True)
     
-    def apply_discount(self, original_price):
-        if self.discount_type == "percentage":
-            discount_amount = (self.value / 100) * original_price
-            discounted_price = original_price - discount_amount
-        elif self.discount_type == "fixed":
-            discounted_price = max(original_price - self.value, 0)
-        else:
-            discounted_price = original_price
-        return round(discounted_price, 2)        
-    
+    def discount_price_product(self,product):
+        price=product.price
+        current_price=price-((price/100)*self.value)
+        return current_price
+
     def __str__(self):
         return self.title
     
-
-
-
-
+    def save(self,*args,**kwargs):
+        
+        return super().save(*args,**kwargs)
+    
 """
 discount
     start date 
