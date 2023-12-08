@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import viewsets,status
 from rest_framework.decorators import action
 # Local app imports
-from .models import Category, SubCategory, Product, ProductImage, Discount
-from .serializers import CategorySerializer, SubCategorySerializer, ProductSerializer, ProductImageSerializer, DiscountSerializer
+from .models import Category, SubCategory, Product, ProductImage, Discount, BannerImage
+from .serializers import CategorySerializer, SubCategorySerializer, ProductSerializer, ProductImageSerializer, DiscountSerializer, BannerImageSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -43,3 +43,7 @@ class ProductImageViewSet(viewsets.ModelViewSet):
 class DiscountViewSet(viewsets.ModelViewSet):
     queryset = Discount.objects.all()
     serializer_class = DiscountSerializer
+
+class BannerImageViewSet(viewsets.ModelViewSet):
+    queryset = BannerImage.objects.all()
+    serializer_class = BannerImageSerializer

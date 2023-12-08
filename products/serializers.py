@@ -110,3 +110,8 @@ class DiscountSerializer(serializers.ModelSerializer):
         model = models.Discount
         fields = "__all__"
 
+class BannerImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.BannerImage
+        fields = "__all__"
+        
