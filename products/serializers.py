@@ -49,20 +49,21 @@ class ProductSerializer(serializers.ModelSerializer):
         return images
 
     def get_category(self, obj):
-        category = obj.category
-        request = self.context.get('request')
+        # category = obj.category
+        # request = self.context.get('request')
 
-        if category.image:
-            image_url = request.build_absolute_uri(category.image.url)
-        else:
-            None    
+        # if category.image:
+        #     image_url = request.build_absolute_uri(category.image.url)
+        # else:
+        #     None    
 
-        data = {
-            "id": category.id,
-            "title": category.title,
-            "image": image_url
-        }
-        return data
+        # data = {
+        #     "id": category.id,
+        #     "title": category.title,
+        #     "image": image_url
+        # }
+        serializer=CategorySerializer(obj.category,many=False,context=self.context)
+        return serializer.data
 
     def get_subcategory(self, obj):
         subcategory = obj.subcategory
