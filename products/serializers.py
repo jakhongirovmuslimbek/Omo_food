@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+from django.urls import reverse
 
 class SubCategorySerializer(serializers.ModelSerializer):
     thumbnail_image = serializers.ImageField(read_only=True)
@@ -49,9 +50,17 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_category(self, obj):
         category = obj.category
+        request = self.context.get('request')
+
+        if category.image:
+            image_url = request.build_absolute_uri(category.image.url)
+        else:
+            None    
+
         data = {
             "id": category.id,
             "title": category.title,
+            "image": image_url
         }
         return data
 
